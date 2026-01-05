@@ -1,6 +1,7 @@
 import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
-import SymbolPicker from '../../components/SymbolPicker'
+import SymbolPicker from "../SymbolPicker";
+
 
 test('renders symbol list and allows selection', () => {
   render(<SymbolPicker market="spot" onSelect={() => {}} />)
