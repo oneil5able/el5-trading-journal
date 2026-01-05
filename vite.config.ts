@@ -2,25 +2,20 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
 
+// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'src') // ✅ allows @/ imports everywhere
+      '@': path.resolve(__dirname, 'src')
     }
-  },
+  }
+  ,
   optimizeDeps: {
     esbuildOptions: {
       loader: {
-        '.js': 'jsx' // treats JS files as JSX
+        '.js': 'jsx'
       }
-    }
-  },
-  test: {
-    globals: true,
-    environment: 'jsdom',
-    alias: {
-      '@': path.resolve(__dirname, 'src') // ✅ allows @/ imports in tests
     }
   }
 })
