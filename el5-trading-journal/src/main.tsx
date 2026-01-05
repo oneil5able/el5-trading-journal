@@ -21,7 +21,7 @@ import Settings from '../Pages/Settings.jsx'
 import Spot from '../Pages/Spot.jsx'
 import Futures from '../Pages/Futures.jsx'
 import Options from '../Pages/Options.jsx'
-import Margin from '../Pages/Margin.jsx'
+import Margin from '../Pages/Margin.js'
 import NFT from '../Pages/NFT.jsx'
 
 import Support from '../Pages/Support.jsx'
