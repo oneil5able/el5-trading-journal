@@ -70,7 +70,26 @@ class Query {
   }
 }
 
-export const supabase = {
+// Prefer a real Supabase client in production using env vars; fallback to local shim.
+let realSupabase: any = null;
+try {
+  // Only attempt to create a server client when env vars are provided at build/runtime
+  // Vite exposes env variables prefixed with VITE_. For Netlify functions or server usage,
+  // process.env.SUPABASE_URL / SUPABASE_KEY will be used.
+  // We'll lazy-load the client when possible.
+  const url = (globalThis as any).VITE_SUPABASE_URL || (process && (process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL));
+  const key = (globalThis as any).VITE_SUPABASE_KEY || (process && (process.env.SUPABASE_KEY || process.env.VITE_SUPABASE_KEY));
+  if (url && key) {
+    // dynamic require to avoid breaking environments without @supabase/supabase-js
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const { createClient } = require('@supabase/supabase-js');
+    realSupabase = createClient(url, key);
+  }
+} catch (e) {
+  realSupabase = null;
+}
+
+export const supabase = realSupabase || {
   from(table: string) {
     const db = loadDB();
     return {
@@ -97,7 +116,6 @@ export const supabase = {
     };
   },
   auth: {
-    // Return a demo user from localStorage or a default demo user.
     async getUser() {
       const raw = localStorage.getItem('demo_user');
       if (raw) {
