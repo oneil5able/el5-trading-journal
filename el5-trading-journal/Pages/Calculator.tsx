@@ -1,7 +1,7 @@
 // React import not required with automatic JSX runtime
 import { motion } from 'framer-motion';
 import { Calculator } from 'lucide-react';
-import PositionCalculator from '../components/calculator/PositionCalculator';
+import PositionCalculator from '@/components/calculator/PositionCalculator';
 
 export default function CalculatorPage() {
   return (

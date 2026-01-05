@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { db, ITrade } from '../db';
+import { db } from '../db';
 
 export default function TradeExit({ trade, onClose }: { trade: any; onClose: () => void }) {
   const [exit, setExit] = useState('');
