@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { supabase, Note } from '../lib/supabase';
+import { supabase } from '../lib/supabase';
+import type { Note } from '../lib/supabase';
 
 export default function NotesSystem({ userId, tradeId }: { userId: string; tradeId?: string }) {
   const [notes, setNotes] = useState<Note[]>([]);
@@ -136,7 +137,7 @@ export default function NotesSystem({ userId, tradeId }: { userId: string; trade
                   )}
                   <div className="text-sm text-shell-text/80 mt-2">{note.content}</div>
                   <div className="text-xs text-shell-text/50 mt-2">
-                    {new Date(note.created_at).toLocaleDateString()}
+                    {note.created_at ? new Date(note.created_at).toLocaleDateString() : ''}
                   </div>
                 </div>
                 <button
