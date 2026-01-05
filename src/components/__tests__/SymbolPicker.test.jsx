@@ -1,25 +1,13 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import path from 'path'
+import React from 'react'
+import { render, screen, fireEvent } from '@testing-library/react'
+import SymbolPicker from '../../components/SymbolPicker'
 
-export default defineConfig({
-  plugins: [react()],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src') // ✅ Added ./ prefix for consistency
-    }
-  },
-  optimizeDeps: {
-    esbuildOptions: {
-      loader: {
-        '.js': 'jsx'
-      }
-    }
-  },
-  test: {
-    globals: true,
-    environment: 'jsdom',
-    setupFiles: ['./src/test/setup.js'] // ✅ Required for jest-dom matchers
-    // ✅ REMOVED redundant test.alias (uses resolve.alias automatically)
-  }
+test('renders symbol list and allows selection', () => {
+  render(<SymbolPicker market="spot" onSelect={() => {}} />)
+  const input = screen.getByPlaceholderText(/Search symbol/i)
+  expect(input).toBeInTheDocument()
+  fireEvent.change(input, { target: { value: 'BTC' } })
+  // After searching, a symbol option should be visible
+  const option = screen.getByText(/BTCUSDT/i)
+  expect(option).toBeInTheDocument()
 })
