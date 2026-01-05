@@ -6,13 +6,13 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'src') // for Vite
+      '@': path.resolve(__dirname, 'src') // for Vite imports
     }
   },
   optimizeDeps: {
     esbuildOptions: {
       loader: {
-        '.js': 'jsx'
+        '.js': 'jsx' // ensures JS files are treated as JSX
       }
     }
   },
@@ -20,7 +20,7 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     alias: {
-      '@': path.resolve(__dirname, 'src') // ✅ make alias work in tests
+      '@': path.resolve(__dirname, 'src') // ✅ allows @/ imports in tests
     }
   }
 })
