@@ -22,15 +22,9 @@
     },
     "priority": {
       "type": "string",
-      "enum": [
-        "high",
-        "medium",
-        "low"
-      ],
+      "enum": ["high", "medium", "low"],
       "default": "medium"
     }
   },
-  "required": [
-    "symbol"
-  ]
+  "required": ["symbol"]
 }

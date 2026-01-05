@@ -1,43 +1,43 @@
-import React from 'react'
-import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import './index.css'
-import Layout from '../Layout.jsx'
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./index.css";
+import Layout from "../Layout.jsx";
 
 // Pages
-import Dashboard from '../Pages/Dashboard.jsx'
-import Journal from '../Pages/Journal.jsx'
-import Charts from '../Pages/Chart.jsx'
-import Watchlist from '../Pages/Watchlist.jsx'
-import Portfolio from '../Pages/portfolio.jsx'
-import Analytics from '../Pages/Analytics.jsx'
-import Calculator from '../Pages/Calculator.jsx'
-import Psychology from '../Pages/Psychology.jsx'
-import Notes from '../Pages/Notes.jsx'
-import Profile from '../Pages/Profile.jsx'
-import Settings from '../Pages/Settings.jsx'
+import Dashboard from "../Pages/Dashboard.jsx";
+import Journal from "../Pages/Journal.jsx";
+import Charts from "../Pages/Chart.jsx";
+import Watchlist from "../Pages/Watchlist.jsx";
+import Portfolio from "../Pages/portfolio.jsx";
+import Analytics from "../Pages/Analytics.jsx";
+import Calculator from "../Pages/Calculator.jsx";
+import Psychology from "../Pages/Psychology.jsx";
+import Notes from "../Pages/Notes.jsx";
+import Profile from "../Pages/Profile.jsx";
+import Settings from "../Pages/Settings.jsx";
 
 // Platform and company/support placeholders (created if missing)
-import Spot from '../Pages/Spot.jsx'
-import Futures from '../Pages/Futures.jsx'
-import Options from '../Pages/Options.jsx'
-import Margin from '../Pages/Margin.jsx'
-import NFT from '../Pages/NFT.jsx'
+import Spot from "../Pages/Spot.jsx";
+import Futures from "../Pages/Futures.jsx";
+import Options from "../Pages/Options.jsx";
+import Margin from "../Pages/Margin.jsx";
+import NFT from "../Pages/NFT.jsx";
 
-import Support from '../Pages/Support.jsx'
-import HelpCenter from '../Pages/HelpCenter.jsx'
-import APIDocs from '../Pages/APIDocs.jsx'
-import TradingGuides from '../Pages/TradingGuides.jsx'
-import ContactSupport from '../Pages/ContactSupport.jsx'
-import SystemStatus from '../Pages/SystemStatus.jsx'
+import Support from "../Pages/Support.jsx";
+import HelpCenter from "../Pages/HelpCenter.jsx";
+import APIDocs from "../Pages/APIDocs.jsx";
+import TradingGuides from "../Pages/TradingGuides.jsx";
+import ContactSupport from "../Pages/ContactSupport.jsx";
+import SystemStatus from "../Pages/SystemStatus.jsx";
 
-import About from '../Pages/About.jsx'
-import Careers from '../Pages/Careers.jsx'
-import PressKit from '../Pages/PressKit.jsx'
-import Privacy from '../Pages/Privacy.jsx'
-import Terms from '../Pages/Terms.jsx'
+import About from "../Pages/About.jsx";
+import Careers from "../Pages/Careers.jsx";
+import PressKit from "../Pages/PressKit.jsx";
+import Privacy from "../Pages/Privacy.jsx";
+import Terms from "../Pages/Terms.jsx";
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
       <Layout>
@@ -82,5 +82,5 @@ createRoot(document.getElementById('root')!).render(
         </Routes>
       </Layout>
     </BrowserRouter>
-  </React.StrictMode>,
-)
+  </React.StrictMode>
+);

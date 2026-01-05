@@ -1,1 +1,1 @@
-﻿export { default } from './WatchlistCard.jsx';
+﻿export { default } from "./WatchlistCard.jsx";

@@ -1,30 +1,33 @@
-import { useState, useEffect } from 'react';
-import { Moon, Sun, Palette } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { Moon, Sun, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<'dark'|'light'|'blue'>('dark');
+  const [theme, setTheme] = useState<"dark" | "light" | "blue">("dark");
 
   useEffect(() => {
-    const saved = (localStorage.getItem('theme') || 'dark') as 'dark' | 'light' | 'blue';
+    const saved = (localStorage.getItem("theme") || "dark") as
+      | "dark"
+      | "light"
+      | "blue";
     setTheme(saved);
     document.documentElement.className = saved;
   }, []);
 
   const toggleTheme = () => {
-    const themes = ['dark', 'light', 'blue'] as const;
+    const themes = ["dark", "light", "blue"] as const;
     const currentIndex = themes.indexOf(theme);
     const nextTheme = themes[(currentIndex + 1) % themes.length];
     setTheme(nextTheme);
-    localStorage.setItem('theme', nextTheme);
+    localStorage.setItem("theme", nextTheme);
     document.documentElement.className = nextTheme;
   };
 
-  const icons: Record<'dark'|'light'|'blue', any> = {
+  const icons: Record<"dark" | "light" | "blue", any> = {
     dark: Moon,
     light: Sun,
-    blue: Palette
+    blue: Palette,
   };
 
   const Icon = icons[theme];
@@ -37,7 +40,12 @@ export default function ThemeToggle() {
       onClick={toggleTheme}
       className="border-slate-700 bg-slate-800/50 hover:bg-slate-800"
     >
-      <Icon className={cn("w-4 h-4", theme === 'light' ? 'text-amber-400' : 'text-slate-400')} />
+      <Icon
+        className={cn(
+          "w-4 h-4",
+          theme === "light" ? "text-amber-400" : "text-slate-400"
+        )}
+      />
     </Button>
   );
 }

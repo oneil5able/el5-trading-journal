@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 type User = {
   id: string;
@@ -22,19 +22,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Load session on refresh
   useEffect(() => {
-    const stored = localStorage.getItem('el5_user');
+    const stored = localStorage.getItem("el5_user");
     if (stored) setUser(JSON.parse(stored));
   }, []);
 
   const login = (email: string) => {
     const u = { id: crypto.randomUUID(), email };
     setUser(u);
-    localStorage.setItem('el5_user', JSON.stringify(u));
+    localStorage.setItem("el5_user", JSON.stringify(u));
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('el5_user');
+    localStorage.removeItem("el5_user");
   };
 
   return (
@@ -57,7 +57,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 export function useAuth() {
   const ctx = useContext(AuthContext);
   if (!ctx) {
-    throw new Error('useAuth must be used inside <AuthProvider>');
+    throw new Error("useAuth must be used inside <AuthProvider>");
   }
   return ctx;
 }

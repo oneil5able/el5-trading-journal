@@ -11,7 +11,7 @@ export type Note = {
   created_at?: string;
 };
 
-const STORAGE_KEY = 'eternum_demo_db_v1';
+const STORAGE_KEY = "eternum_demo_db_v1";
 
 type DB = {
   notes: Note[];
@@ -57,7 +57,13 @@ class Query {
     const asc = !opts || opts.ascending !== false;
     this.sorter = (a: any, b: any) => {
       if (a[field] === b[field]) return 0;
-      return asc ? (a[field] > b[field] ? 1 : -1) : a[field] < b[field] ? 1 : -1;
+      return asc
+        ? a[field] > b[field]
+          ? 1
+          : -1
+        : a[field] < b[field]
+        ? 1
+        : -1;
     };
     return this;
   }
@@ -77,12 +83,16 @@ try {
   // Vite exposes env variables prefixed with VITE_. For Netlify functions or server usage,
   // process.env.SUPABASE_URL / SUPABASE_KEY will be used.
   // We'll lazy-load the client when possible.
-  const url = (globalThis as any).VITE_SUPABASE_URL || (process && (process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL));
-  const key = (globalThis as any).VITE_SUPABASE_KEY || (process && (process.env.SUPABASE_KEY || process.env.VITE_SUPABASE_KEY));
+  const url =
+    (globalThis as any).VITE_SUPABASE_URL ||
+    (process && (process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL));
+  const key =
+    (globalThis as any).VITE_SUPABASE_KEY ||
+    (process && (process.env.SUPABASE_KEY || process.env.VITE_SUPABASE_KEY));
   if (url && key) {
     // dynamic require to avoid breaking environments without @supabase/supabase-js
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const { createClient } = require('@supabase/supabase-js');
+    const { createClient } = require("@supabase/supabase-js");
     realSupabase = createClient(url, key);
   }
 } catch (e) {
@@ -103,13 +113,17 @@ export const supabase = realSupabase || {
       },
       delete: () => ({
         eq: async (field: string, value: any) => {
-          (db as any)[table] = ((db as any)[table] || []).filter((r: any) => r[field] !== value);
+          (db as any)[table] = ((db as any)[table] || []).filter(
+            (r: any) => r[field] !== value
+          );
           saveDB(db);
           return { data: null, error: null };
         },
       }),
       update: async (changes: any) => {
-        (db as any)[table] = ((db as any)[table] || []).map((r: any) => (r.id === changes.id ? { ...r, ...changes } : r));
+        (db as any)[table] = ((db as any)[table] || []).map((r: any) =>
+          r.id === changes.id ? { ...r, ...changes } : r
+        );
         saveDB(db);
         return { data: changes, error: null };
       },
@@ -117,7 +131,7 @@ export const supabase = realSupabase || {
   },
   auth: {
     async getUser() {
-      const raw = localStorage.getItem('demo_user');
+      const raw = localStorage.getItem("demo_user");
       if (raw) {
         try {
           const user = JSON.parse(raw);
@@ -126,11 +140,15 @@ export const supabase = realSupabase || {
           // fall through
         }
       }
-      const demo = { id: 'demo-user', email: 'demo@local', user_metadata: { name: 'Demo User' } };
+      const demo = {
+        id: "demo-user",
+        email: "demo@local",
+        user_metadata: { name: "Demo User" },
+      };
       return { data: { user: demo }, error: null };
     },
     user() {
-      const raw = localStorage.getItem('demo_user');
+      const raw = localStorage.getItem("demo_user");
       if (!raw) return null;
       try {
         return JSON.parse(raw);

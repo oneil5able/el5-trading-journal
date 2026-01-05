@@ -21,9 +21,5 @@
       "type": "string"
     }
   },
-  "required": [
-    "symbol",
-    "shares",
-    "avg_cost"
-  ]
+  "required": ["symbol", "shares", "avg_cost"]
 }

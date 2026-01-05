@@ -1,16 +1,28 @@
-import React from 'react';
+import React from "react";
 import { Card } from "@/components/ui/card";
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
-import { motion } from 'framer-motion';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
+import { motion } from "framer-motion";
 
-const COLORS = ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444', '#ec4899', '#06b6d4', '#84cc16', '#f97316'];
+const COLORS = [
+  "#10b981",
+  "#3b82f6",
+  "#8b5cf6",
+  "#f59e0b",
+  "#ef4444",
+  "#ec4899",
+  "#06b6d4",
+  "#84cc16",
+  "#f97316",
+];
 
 const CustomTooltip = ({ active, payload }) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-slate-800/95 backdrop-blur-xl border border-slate-700 rounded-xl p-3 shadow-2xl">
         <p className="text-white font-medium capitalize">{payload[0].name}</p>
-        <p className="text-slate-400 text-sm">{payload[0].value} trades ({payload[0].payload.percentage}%)</p>
+        <p className="text-slate-400 text-sm">
+          {payload[0].value} trades ({payload[0].payload.percentage}%)
+        </p>
       </div>
     );
   }
@@ -18,22 +30,22 @@ const CustomTooltip = ({ active, payload }) => {
 };
 
 export default function StrategyBreakdown({ trades = [] }) {
-  const closedTrades = trades.filter(t => t.status === 'closed');
-  
+  const closedTrades = trades.filter((t) => t.status === "closed");
+
   const strategyData = closedTrades.reduce((acc, trade) => {
-    const strategy = trade.strategy || 'other';
+    const strategy = trade.strategy || "other";
     acc[strategy] = (acc[strategy] || 0) + 1;
     return acc;
   }, {});
 
   const chartData = Object.entries(strategyData).map(([name, value]) => ({
-    name: name.replace(/_/g, ' '),
+    name: name.replace(/_/g, " "),
     value,
-    percentage: ((value / closedTrades.length) * 100).toFixed(1)
+    percentage: ((value / closedTrades.length) * 100).toFixed(1),
   }));
 
   const strategyPL = closedTrades.reduce((acc, trade) => {
-    const strategy = trade.strategy || 'other';
+    const strategy = trade.strategy || "other";
     if (!acc[strategy]) {
       acc[strategy] = { wins: 0, losses: 0, total: 0, pl: 0 };
     }
@@ -52,7 +64,9 @@ export default function StrategyBreakdown({ trades = [] }) {
     >
       <Card className="bg-slate-900/50 border-slate-800/50 backdrop-blur-xl p-6">
         <div className="mb-6">
-          <h3 className="text-white font-semibold text-lg">Strategy Breakdown</h3>
+          <h3 className="text-white font-semibold text-lg">
+            Strategy Breakdown
+          </h3>
           <p className="text-slate-400 text-sm">Performance by strategy</p>
         </div>
 
@@ -71,7 +85,10 @@ export default function StrategyBreakdown({ trades = [] }) {
                     dataKey="value"
                   >
                     {chartData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS[index % COLORS.length]}
+                      />
                     ))}
                   </Pie>
                   <Tooltip content={<CustomTooltip />} />
@@ -80,28 +97,45 @@ export default function StrategyBreakdown({ trades = [] }) {
             </div>
 
             <div className="space-y-2">
-              {Object.entries(strategyPL).slice(0, 5).map(([strategy, data], index) => (
-                <div key={strategy} className="flex items-center justify-between p-3 rounded-lg bg-slate-800/30">
-                  <div className="flex items-center gap-3">
-                    <div 
-                      className="w-3 h-3 rounded-full" 
-                      style={{ backgroundColor: COLORS[index % COLORS.length] }}
-                    />
-                    <span className="text-slate-300 text-sm capitalize">{strategy.replace(/_/g, ' ')}</span>
+              {Object.entries(strategyPL)
+                .slice(0, 5)
+                .map(([strategy, data], index) => (
+                  <div
+                    key={strategy}
+                    className="flex items-center justify-between p-3 rounded-lg bg-slate-800/30"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div
+                        className="w-3 h-3 rounded-full"
+                        style={{
+                          backgroundColor: COLORS[index % COLORS.length],
+                        }}
+                      />
+                      <span className="text-slate-300 text-sm capitalize">
+                        {strategy.replace(/_/g, " ")}
+                      </span>
+                    </div>
+                    <div className="text-right">
+                      <span
+                        className={`text-sm font-medium ${
+                          data.pl >= 0 ? "text-emerald-400" : "text-rose-400"
+                        }`}
+                      >
+                        {data.pl >= 0 ? "+" : ""}${data.pl.toFixed(2)}
+                      </span>
+                      <p className="text-slate-500 text-xs">
+                        {((data.wins / data.total) * 100).toFixed(0)}% win rate
+                      </p>
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <span className={`text-sm font-medium ${data.pl >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                      {data.pl >= 0 ? '+' : ''}${data.pl.toFixed(2)}
-                    </span>
-                    <p className="text-slate-500 text-xs">{((data.wins / data.total) * 100).toFixed(0)}% win rate</p>
-                  </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
         ) : (
           <div className="text-center py-8">
-            <p className="text-slate-500">Complete some trades to see strategy analytics</p>
+            <p className="text-slate-500">
+              Complete some trades to see strategy analytics
+            </p>
           </div>
         )}
       </Card>

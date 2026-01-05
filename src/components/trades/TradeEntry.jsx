@@ -1,24 +1,24 @@
-import React, { useState } from 'react'; 
-import { Card } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+import React, { useState } from "react";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { ArrowUpRight, ArrowDownRight, Plus } from 'lucide-react';
+} from "@/components/ui/select";
+import { ArrowUpRight, ArrowDownRight, Plus } from "lucide-react";
 
 export default function TradeEntry({ onSubmit }) {
   const [formData, setFormData] = useState({
-    symbol: '',
-    market_type: 'stocks',
-    type: 'long',
-    entry_price: '',
-    quantity: '',
-    timeframe: '1d',
+    symbol: "",
+    market_type: "stocks",
+    type: "long",
+    entry_price: "",
+    quantity: "",
+    timeframe: "1d",
   });
 
   const handleQuickEntry = () => {
@@ -29,18 +29,18 @@ export default function TradeEntry({ onSubmit }) {
       entry_price: parseFloat(formData.entry_price),
       quantity: parseFloat(formData.quantity),
       entry_date: new Date().toISOString(),
-      status: 'open',
+      status: "open",
     };
 
     onSubmit(trade);
 
     setFormData({
-      symbol: '',
-      market_type: 'stocks',
-      type: 'long',
-      entry_price: '',
-      quantity: '',
-      timeframe: '1d',
+      symbol: "",
+      market_type: "stocks",
+      type: "long",
+      entry_price: "",
+      quantity: "",
+      timeframe: "1d",
     });
   };
 
@@ -85,7 +85,9 @@ export default function TradeEntry({ onSubmit }) {
           type="number"
           placeholder="Entry"
           value={formData.entry_price}
-          onChange={(e) => setFormData({ ...formData, entry_price: e.target.value })}
+          onChange={(e) =>
+            setFormData({ ...formData, entry_price: e.target.value })
+          }
           className="bg-slate-800 border-slate-700"
         />
 
@@ -94,32 +96,34 @@ export default function TradeEntry({ onSubmit }) {
           type="number"
           placeholder="Size"
           value={formData.quantity}
-          onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
+          onChange={(e) =>
+            setFormData({ ...formData, quantity: e.target.value })
+          }
           className="bg-slate-800 border-slate-700"
         />
 
         {/* Trade Type Buttons */}
         <div className="flex gap-2">
           <Button
-            variant={formData.type === 'long' ? 'default' : 'outline'}
+            variant={formData.type === "long" ? "default" : "outline"}
             size="sm"
-            onClick={() => setFormData({ ...formData, type: 'long' })}
+            onClick={() => setFormData({ ...formData, type: "long" })}
             className={
-              formData.type === 'long'
-                ? 'bg-emerald-600 hover:bg-emerald-700 flex-1'
-                : 'border-slate-700 flex-1'
+              formData.type === "long"
+                ? "bg-emerald-600 hover:bg-emerald-700 flex-1"
+                : "border-slate-700 flex-1"
             }
           >
             <ArrowUpRight className="w-4 h-4" />
           </Button>
           <Button
-            variant={formData.type === 'short' ? 'default' : 'outline'}
+            variant={formData.type === "short" ? "default" : "outline"}
             size="sm"
-            onClick={() => setFormData({ ...formData, type: 'short' })}
+            onClick={() => setFormData({ ...formData, type: "short" })}
             className={
-              formData.type === 'short'
-                ? 'bg-rose-600 hover:bg-rose-700 flex-1'
-                : 'border-slate-700 flex-1'
+              formData.type === "short"
+                ? "bg-rose-600 hover:bg-rose-700 flex-1"
+                : "border-slate-700 flex-1"
             }
           >
             <ArrowDownRight className="w-4 h-4" />

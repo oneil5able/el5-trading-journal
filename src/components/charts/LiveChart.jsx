@@ -1,16 +1,20 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Activity, ExternalLink } from 'lucide-react';
+import { Activity, ExternalLink } from "lucide-react";
 
-export default function LiveChart({ symbol = 'AAPL', timeframe = '1D', marketType = 'stocks' }) {
+export default function LiveChart({
+  symbol = "AAPL",
+  timeframe = "1D",
+  marketType = "stocks",
+}) {
   const containerRef = useRef(null);
 
   useEffect(() => {
     if (!containerRef.current || !symbol) return;
 
-    const script = document.createElement('script');
-    script.src = 'https://s3.tradingview.com/tv.js';
+    const script = document.createElement("script");
+    script.src = "https://s3.tradingview.com/tv.js";
     script.async = true;
     script.onload = () => {
       if (window.TradingView) {
@@ -18,18 +22,18 @@ export default function LiveChart({ symbol = 'AAPL', timeframe = '1D', marketTyp
           autosize: true,
           symbol: getSymbolFormat(symbol, marketType),
           interval: timeframe,
-          timezone: 'Etc/UTC',
-          theme: 'dark',
-          style: '1',
-          locale: 'en',
-          toolbar_bg: '#0f172a',
+          timezone: "Etc/UTC",
+          theme: "dark",
+          style: "1",
+          locale: "en",
+          toolbar_bg: "#0f172a",
           enable_publishing: false,
           hide_top_toolbar: false,
           hide_legend: true,
           save_image: false,
           container_id: containerRef.current.id,
-          backgroundColor: '#0f172a',
-          gridColor: '#1e293b'
+          backgroundColor: "#0f172a",
+          gridColor: "#1e293b",
         });
       }
     };
@@ -43,11 +47,11 @@ export default function LiveChart({ symbol = 'AAPL', timeframe = '1D', marketTyp
   }, [symbol, timeframe, marketType]);
 
   const getSymbolFormat = (sym, type) => {
-    switch(type) {
-      case 'crypto':
-        return `BINANCE:${sym.replace('/', '')}`;
-      case 'forex':
-        return `FX:${sym.replace('/', '')}`;
+    switch (type) {
+      case "crypto":
+        return `BINANCE:${sym.replace("/", "")}`;
+      case "forex":
+        return `FX:${sym.replace("/", "")}`;
       default:
         return `NASDAQ:${sym}`;
     }
@@ -59,12 +63,18 @@ export default function LiveChart({ symbol = 'AAPL', timeframe = '1D', marketTyp
         <div className="flex items-center gap-2">
           <Activity className="w-5 h-5 text-emerald-400" />
           <span className="text-white font-semibold">{symbol}</span>
-          <Badge variant="outline" className="border-slate-700 text-slate-400 text-xs capitalize">
+          <Badge
+            variant="outline"
+            className="border-slate-700 text-slate-400 text-xs capitalize"
+          >
             {marketType}
           </Badge>
         </div>
-        <a 
-          href={`https://www.tradingview.com/chart/?symbol=${getSymbolFormat(symbol, marketType)}`}
+        <a
+          href={`https://www.tradingview.com/chart/?symbol=${getSymbolFormat(
+            symbol,
+            marketType
+          )}`}
           target="_blank"
           rel="noopener noreferrer"
           className="text-slate-400 hover:text-white transition-colors"
@@ -72,8 +82,8 @@ export default function LiveChart({ symbol = 'AAPL', timeframe = '1D', marketTyp
           <ExternalLink className="w-4 h-4" />
         </a>
       </div>
-      <div 
-        id={`tradingview_chart_${symbol}`} 
+      <div
+        id={`tradingview_chart_${symbol}`}
         ref={containerRef}
         className="h-[500px] rounded-lg overflow-hidden"
       />

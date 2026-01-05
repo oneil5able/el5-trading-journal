@@ -1,50 +1,98 @@
-import { useState, type ChangeEvent } from 'react'
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
-import { Eye } from 'lucide-react'
-import { format } from 'date-fns'
+import { useState, type ChangeEvent } from "react";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Eye } from "lucide-react";
+import { format } from "date-fns";
 
 type Reflection = {
-  date: string
-  content: string
-  type: 'daily'
-}
+  date: string;
+  content: string;
+  type: "daily";
+};
 
 type PreState = {
-  confidence: number
-  calm: number
-  clarity: number
-  energy: number
-  urgency: number
-  mindset: string[]
-  fear: string
-  rules: boolean
-}
+  confidence: number;
+  calm: number;
+  clarity: number;
+  energy: number;
+  urgency: number;
+  mindset: string[];
+  fear: string;
+  rules: boolean;
+};
 
 type PostState = {
-  reaction: string
-  intensity: number
-  urge: boolean
-  urgeReason: string
-  alignment: string
-  label: string
-  pattern: string
-}
+  reaction: string;
+  intensity: number;
+  urge: boolean;
+  urgeReason: string;
+  alignment: string;
+  label: string;
+  pattern: string;
+};
 
 type Props = {
-  onSave: (data: Reflection | { pre: PreState; post: PostState | null }) => void
-}
+  onSave: (
+    data: Reflection | { pre: PreState; post: PostState | null }
+  ) => void;
+};
 
 function EmojiScroll({ onPick }: { onPick: (e: string) => void }) {
-  const [open, setOpen] = useState(false)
-  const [selected, setSelected] = useState('😐')
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState("😐");
 
   const EMOJIS = [
-    '😡','😕','😐','🙂','😁','🤩','😎','🤯','😴','🤔','🤐','🤪','😇','👹','💀',
-    '🔥','💯','⚡','🎯','🚀','💸','📉','📈','💰','🤏','🎲','🎰','🔮','🧠','💡','❤️',
-    '🩹','💊','🧘','⚖️','🛡️','⚠️','🚫','✅','🔄','⏳','🕐','🌅','🌙','🧊','🌊','🌪️','🧯','🏁'
-  ]
+    "😡",
+    "😕",
+    "😐",
+    "🙂",
+    "😁",
+    "🤩",
+    "😎",
+    "🤯",
+    "😴",
+    "🤔",
+    "🤐",
+    "🤪",
+    "😇",
+    "👹",
+    "💀",
+    "🔥",
+    "💯",
+    "⚡",
+    "🎯",
+    "🚀",
+    "💸",
+    "📉",
+    "📈",
+    "💰",
+    "🤏",
+    "🎲",
+    "🎰",
+    "🔮",
+    "🧠",
+    "💡",
+    "❤️",
+    "🩹",
+    "💊",
+    "🧘",
+    "⚖️",
+    "🛡️",
+    "⚠️",
+    "🚫",
+    "✅",
+    "🔄",
+    "⏳",
+    "🕐",
+    "🌅",
+    "🌙",
+    "🧊",
+    "🌊",
+    "🌪️",
+    "🧯",
+    "🏁",
+  ];
 
   return (
     <div className="relative">
@@ -57,13 +105,13 @@ function EmojiScroll({ onPick }: { onPick: (e: string) => void }) {
       </button>
       {open && (
         <div className="absolute top-12 left-0 w-64 h-48 overflow-y-auto bg-gray-900 border rounded p-2 grid grid-cols-4 gap-2 z-10">
-          {EMOJIS.map(e => (
+          {EMOJIS.map((e) => (
             <div
               key={e}
               onClick={() => {
-                setSelected(e)
-                onPick(e)
-                setOpen(false)
+                setSelected(e);
+                onPick(e);
+                setOpen(false);
               }}
               className="cursor-pointer hover:bg-gray-700 p-2 text-2xl rounded text-center"
             >
@@ -73,58 +121,58 @@ function EmojiScroll({ onPick }: { onPick: (e: string) => void }) {
         </div>
       )}
     </div>
-  )
+  );
 }
 
 const MINDSETS = [
-  'Focused & patient',
-  'Slightly rushed',
-  'Afraid of missing the move',
-  'Recovering from a previous loss',
-  'Riding confidence from a win',
-  'Bored / forcing action',
-  'Neutral',
-]
+  "Focused & patient",
+  "Slightly rushed",
+  "Afraid of missing the move",
+  "Recovering from a previous loss",
+  "Riding confidence from a win",
+  "Bored / forcing action",
+  "Neutral",
+];
 
 const REACTIONS = [
-  'Relief',
-  'Satisfaction',
-  'Frustration',
-  'Anger',
-  'Regret',
-  'Indifference',
-  'Euphoria',
-]
+  "Relief",
+  "Satisfaction",
+  "Frustration",
+  "Anger",
+  "Regret",
+  "Indifference",
+  "Euphoria",
+];
 
 const URGE_REASONS = [
-  'To capitalize on momentum',
-  'To recover a loss',
+  "To capitalize on momentum",
+  "To recover a loss",
   'Felt unusually "locked in"',
-  'Felt unsettled / off balance',
-]
+  "Felt unsettled / off balance",
+];
 
 const ALIGNMENTS = [
-  'Rules followed, emotions calm',
-  'Rules followed, emotions elevated',
-  'Rules broken due to emotion',
-  'Rules broken for non-emotional reasons',
-]
+  "Rules followed, emotions calm",
+  "Rules followed, emotions elevated",
+  "Rules broken due to emotion",
+  "Rules broken for non-emotional reasons",
+];
 
 const PATTERNS = [
-  'Yes — recurring mistake',
-  'Yes — recurring success',
-  'No',
-  'Unsure',
-]
+  "Yes — recurring mistake",
+  "Yes — recurring success",
+  "No",
+  "Unsure",
+];
 
 export default function PsychMirror({ onSave }: Props) {
-  const [mode, setMode] = useState<'daily' | 'pre' | 'post'>('daily')
+  const [mode, setMode] = useState<"daily" | "pre" | "post">("daily");
 
   const [reflection, setReflection] = useState<Reflection>({
-    date: format(new Date(), 'yyyy-MM-dd'),
-    content: '',
-    type: 'daily',
-  })
+    date: format(new Date(), "yyyy-MM-dd"),
+    content: "",
+    type: "daily",
+  });
 
   const [pre, setPre] = useState<PreState>({
     confidence: 3,
@@ -133,30 +181,34 @@ export default function PsychMirror({ onSave }: Props) {
     energy: 3,
     urgency: 3,
     mindset: [],
-    fear: '',
+    fear: "",
     rules: true,
-  })
+  });
 
   const [post, setPost] = useState<PostState>({
-    reaction: 'Neutral',
+    reaction: "Neutral",
     intensity: 3,
     urge: false,
-    urgeReason: '',
-    alignment: '',
-    label: '',
-    pattern: 'No',
-  })
+    urgeReason: "",
+    alignment: "",
+    label: "",
+    pattern: "No",
+  });
 
   const save = () => {
-    if (mode === 'daily') {
-      onSave(reflection)
-      setReflection({ date: format(new Date(), 'yyyy-MM-dd'), content: '', type: 'daily' })
+    if (mode === "daily") {
+      onSave(reflection);
+      setReflection({
+        date: format(new Date(), "yyyy-MM-dd"),
+        content: "",
+        type: "daily",
+      });
     } else {
-      const payload = { pre, post: mode === 'post' ? post : null }
-      onSave(payload)
-      if (mode === 'pre') setMode('post')
+      const payload = { pre, post: mode === "post" ? post : null };
+      onSave(payload);
+      if (mode === "pre") setMode("post");
     }
-  }
+  };
 
   const dailyPrompts = [
     "What emotions influenced my trading today?",
@@ -164,23 +216,32 @@ export default function PsychMirror({ onSave }: Props) {
     "What could I have done better?",
     "What did I learn from today's trades?",
     "How did I manage my risk today?",
-  ]
+  ];
 
   return (
     <Card className="bg-slate-900/50 border-slate-800/50 backdrop-blur-xl p-6 space-y-4">
       <div className="flex gap-2">
-        <Button onClick={() => setMode('daily')} className={mode === 'daily' ? 'bg-indigo-700' : 'bg-gray-700'}>
+        <Button
+          onClick={() => setMode("daily")}
+          className={mode === "daily" ? "bg-indigo-700" : "bg-gray-700"}
+        >
           Daily Reflection
         </Button>
-        <Button onClick={() => setMode('pre')} className={mode === 'pre' ? 'bg-green-700' : 'bg-gray-700'}>
+        <Button
+          onClick={() => setMode("pre")}
+          className={mode === "pre" ? "bg-green-700" : "bg-gray-700"}
+        >
           Pre-Trade
         </Button>
-        <Button onClick={() => setMode('post')} className={mode === 'post' ? 'bg-green-700' : 'bg-gray-700'}>
+        <Button
+          onClick={() => setMode("post")}
+          className={mode === "post" ? "bg-green-700" : "bg-gray-700"}
+        >
           Post-Trade
         </Button>
       </div>
 
-      {mode === 'daily' && (
+      {mode === "daily" && (
         <>
           <div className="flex items-center gap-3">
             <Eye className="w-5 h-5 text-indigo-400" />
@@ -188,7 +249,9 @@ export default function PsychMirror({ onSave }: Props) {
           </div>
 
           <div className="p-4 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
-            <p className="text-indigo-400 font-medium text-sm mb-2">Reflection Prompts</p>
+            <p className="text-indigo-400 font-medium text-sm mb-2">
+              Reflection Prompts
+            </p>
             <ul className="space-y-2 text-slate-400 text-sm">
               {dailyPrompts.map((p, i) => (
                 <li key={i}>• {p}</li>
@@ -199,18 +262,22 @@ export default function PsychMirror({ onSave }: Props) {
           <Textarea
             placeholder="Write your reflections here..."
             value={reflection.content}
-            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setReflection({ ...reflection, content: e.target.value })}
+            onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
+              setReflection({ ...reflection, content: e.target.value })
+            }
             className="bg-slate-800 border-slate-700 min-h-[200px]"
           />
         </>
       )}
 
-      {(mode === 'pre' || mode === 'post') && (
+      {(mode === "pre" || mode === "post") && (
         <>
-          {mode === 'pre' ? (
+          {mode === "pre" ? (
             <>
               <h3 className="font-bold">Mental Readiness (1–5)</h3>
-              {(['confidence','calm','clarity','energy','urgency'] as const).map(k => (
+              {(
+                ["confidence", "calm", "clarity", "energy", "urgency"] as const
+              ).map((k) => (
                 <div key={k} className="flex items-center gap-3">
                   <span className="w-24 capitalize">{k}</span>
                   <input
@@ -218,7 +285,12 @@ export default function PsychMirror({ onSave }: Props) {
                     min={1}
                     max={5}
                     value={pre[k as keyof PreState] as number}
-                    onChange={(e) => setPre({ ...pre, [k]: Number(e.target.value) } as unknown as PreState)}
+                    onChange={(e) =>
+                      setPre({
+                        ...pre,
+                        [k]: Number(e.target.value),
+                      } as unknown as PreState)
+                    }
                   />
                   <span>{pre[k as keyof PreState] as number}</span>
                 </div>
@@ -226,7 +298,7 @@ export default function PsychMirror({ onSave }: Props) {
 
               <h3 className="font-bold">Mindset</h3>
               <div className="grid grid-cols-2 gap-2">
-                {MINDSETS.map(m => (
+                {MINDSETS.map((m) => (
                   <label key={m} className="flex items-center gap-2">
                     <input
                       type="checkbox"
@@ -234,7 +306,9 @@ export default function PsychMirror({ onSave }: Props) {
                       onChange={(e) =>
                         setPre({
                           ...pre,
-                          mindset: e.target.checked ? [...pre.mindset, m] : pre.mindset.filter(x => x !== m),
+                          mindset: e.target.checked
+                            ? [...pre.mindset, m]
+                            : pre.mindset.filter((x) => x !== m),
                         })
                       }
                     />
@@ -263,8 +337,13 @@ export default function PsychMirror({ onSave }: Props) {
           ) : (
             <>
               <h3 className="font-bold">Emotional Reaction</h3>
-              <select value={post.reaction} onChange={(e) => setPost({ ...post, reaction: e.target.value })}>
-                {REACTIONS.map(r => <option key={r}>{r}</option>)}
+              <select
+                value={post.reaction}
+                onChange={(e) => setPost({ ...post, reaction: e.target.value })}
+              >
+                {REACTIONS.map((r) => (
+                  <option key={r}>{r}</option>
+                ))}
               </select>
 
               <h3 className="font-bold">Intensity</h3>
@@ -273,7 +352,9 @@ export default function PsychMirror({ onSave }: Props) {
                 min={1}
                 max={5}
                 value={post.intensity}
-                onChange={(e) => setPost({ ...post, intensity: Number(e.target.value) })}
+                onChange={(e) =>
+                  setPost({ ...post, intensity: Number(e.target.value) })
+                }
               />
 
               <label className="flex items-center gap-2">
@@ -286,23 +367,42 @@ export default function PsychMirror({ onSave }: Props) {
               </label>
 
               {post.urge && (
-                <select value={post.urgeReason} onChange={(e) => setPost({ ...post, urgeReason: e.target.value })}>
+                <select
+                  value={post.urgeReason}
+                  onChange={(e) =>
+                    setPost({ ...post, urgeReason: e.target.value })
+                  }
+                >
                   <option value="">Select reason</option>
-                  {URGE_REASONS.map(r => <option key={r}>{r}</option>)}
+                  {URGE_REASONS.map((r) => (
+                    <option key={r}>{r}</option>
+                  ))}
                 </select>
               )}
 
               <h3 className="font-bold">Rule Alignment</h3>
-              <select value={post.alignment} onChange={(e) => setPost({ ...post, alignment: e.target.value })}>
-                {ALIGNMENTS.map(a => <option key={a}>{a}</option>)}
+              <select
+                value={post.alignment}
+                onChange={(e) =>
+                  setPost({ ...post, alignment: e.target.value })
+                }
+              >
+                {ALIGNMENTS.map((a) => (
+                  <option key={a}>{a}</option>
+                ))}
               </select>
 
               <h3 className="font-bold">One-word label</h3>
               <EmojiScroll onPick={(e) => setPost({ ...post, label: e })} />
 
               <h3 className="font-bold">Pattern?</h3>
-              <select value={post.pattern} onChange={(e) => setPost({ ...post, pattern: e.target.value })}>
-                {PATTERNS.map(p => <option key={p}>{p}</option>)}
+              <select
+                value={post.pattern}
+                onChange={(e) => setPost({ ...post, pattern: e.target.value })}
+              >
+                {PATTERNS.map((p) => (
+                  <option key={p}>{p}</option>
+                ))}
               </select>
             </>
           )}
@@ -310,12 +410,12 @@ export default function PsychMirror({ onSave }: Props) {
       )}
 
       <Button onClick={save} className="w-full mt-4 bg-green-700">
-        {mode === 'daily'
-          ? 'Save Reflection'
-          : mode === 'pre'
-          ? 'Save Pre-Trade & Wait'
-          : 'Save Post-Trade & Close'}
+        {mode === "daily"
+          ? "Save Reflection"
+          : mode === "pre"
+          ? "Save Pre-Trade & Wait"
+          : "Save Post-Trade & Close"}
       </Button>
     </Card>
-  )
+  );
 }

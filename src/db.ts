@@ -15,6 +15,8 @@ export const db = {
   },
 };
 
-export function calculateERS() { return 0; }
+export function calculateERS() {
+  return 0;
+}
 
 export default db;

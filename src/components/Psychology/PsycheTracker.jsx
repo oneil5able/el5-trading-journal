@@ -1,24 +1,33 @@
-import React from 'react';
+import React from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Brain, Star, AlertTriangle, CheckCircle } from 'lucide-react';
+import { Brain, Star, AlertTriangle, CheckCircle } from "lucide-react";
 
 export default function PsycheTracker({ trades = [] }) {
-  const closedTrades = trades.filter(t => t.status === 'closed');
-  
-  const avgDiscipline = closedTrades.reduce((sum, t) => sum + (t.discipline_rating || 0), 0) / (closedTrades.length || 1);
-  
+  const closedTrades = trades.filter((t) => t.status === "closed");
+
+  const avgDiscipline =
+    closedTrades.reduce((sum, t) => sum + (t.discipline_rating || 0), 0) /
+    (closedTrades.length || 1);
+
   const emotionalPatterns = closedTrades.reduce((acc, trade) => {
-    const key = `${trade.emotion_entry}-${(trade.profit_loss || 0) > 0 ? 'win' : 'loss'}`;
+    const key = `${trade.emotion_entry}-${
+      (trade.profit_loss || 0) > 0 ? "win" : "loss"
+    }`;
     acc[key] = (acc[key] || 0) + 1;
     return acc;
   }, {});
 
-  const topPattern = Object.entries(emotionalPatterns)
-    .sort((a, b) => b[1] - a[1])[0];
+  const topPattern = Object.entries(emotionalPatterns).sort(
+    (a, b) => b[1] - a[1]
+  )[0];
 
-  const disciplineIssues = closedTrades.filter(t => (t.discipline_rating || 0) < 3).length;
-  const emotionalTrades = closedTrades.filter(t => ['fomo', 'revenge', 'greedy'].includes(t.emotion_entry)).length;
+  const disciplineIssues = closedTrades.filter(
+    (t) => (t.discipline_rating || 0) < 3
+  ).length;
+  const emotionalTrades = closedTrades.filter((t) =>
+    ["fomo", "revenge", "greedy"].includes(t.emotion_entry)
+  ).length;
 
   return (
     <Card className="bg-slate-900/50 border-slate-800/50 backdrop-blur-xl p-6">
@@ -37,15 +46,21 @@ export default function PsycheTracker({ trades = [] }) {
           <div className="flex items-center justify-between mb-2">
             <p className="text-slate-400 text-sm">Average Discipline</p>
             <div className="flex gap-1">
-              {[1, 2, 3, 4, 5].map(i => (
-                <Star 
-                  key={i} 
-                  className={`w-4 h-4 ${i <= avgDiscipline ? 'text-amber-400 fill-amber-400' : 'text-slate-600'}`}
+              {[1, 2, 3, 4, 5].map((i) => (
+                <Star
+                  key={i}
+                  className={`w-4 h-4 ${
+                    i <= avgDiscipline
+                      ? "text-amber-400 fill-amber-400"
+                      : "text-slate-600"
+                  }`}
                 />
               ))}
             </div>
           </div>
-          <p className="text-2xl font-bold text-white">{avgDiscipline.toFixed(1)}/5</p>
+          <p className="text-2xl font-bold text-white">
+            {avgDiscipline.toFixed(1)}/5
+          </p>
         </div>
 
         {disciplineIssues > 0 && (
@@ -80,10 +95,10 @@ export default function PsycheTracker({ trades = [] }) {
             </div>
             <div className="flex items-center gap-2 mt-2">
               <Badge className="bg-blue-500/20 text-blue-400 capitalize">
-                {topPattern[0].split('-')[0]}
+                {topPattern[0].split("-")[0]}
               </Badge>
               <span className="text-slate-400 text-sm">
-                → {topPattern[0].split('-')[1]} ({topPattern[1]} times)
+                → {topPattern[0].split("-")[1]} ({topPattern[1]} times)
               </span>
             </div>
           </div>

@@ -9,14 +9,14 @@ class TradeListComponent {
     this.filteredTrades = [];
     this.currentPage = 1;
     this.itemsPerPage = 20;
-    this.sortBy = 'date';
-    this.sortOrder = 'desc';
+    this.sortBy = "date";
+    this.sortOrder = "desc";
     this.filters = {
-      market: '',
-      outcome: '',
-      strategy: '',
+      market: "",
+      outcome: "",
+      strategy: "",
       dateRange: { start: null, end: null },
-      search: '',
+      search: "",
     };
   }
 
@@ -110,7 +110,9 @@ class TradeListComponent {
                 <!-- Pagination -->
                 <div class="flex items-center justify-between mt-6">
                     <div class="text-sm text-gray-400">
-                        Showing ${(this.currentPage - 1) * this.itemsPerPage + 1}-${Math.min(
+                        Showing ${
+                          (this.currentPage - 1) * this.itemsPerPage + 1
+                        }-${Math.min(
       this.currentPage * this.itemsPerPage,
       this.filteredTrades.length
     )} of ${this.filteredTrades.length} trades
@@ -148,9 +150,9 @@ class TradeListComponent {
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm">
                     <span class="px-2 py-1 text-xs rounded-full ${
-                      trade.direction === 'long'
-                        ? 'bg-eternum-green bg-opacity-20 text-eternum-green'
-                        : 'bg-eternum-red bg-opacity-20 text-eternum-red'
+                      trade.direction === "long"
+                        ? "bg-eternum-green bg-opacity-20 text-eternum-green"
+                        : "bg-eternum-red bg-opacity-20 text-eternum-red"
                     }">
                         ${trade.direction.toUpperCase()}
                     </span>
@@ -165,14 +167,14 @@ class TradeListComponent {
                     ${parseFloat(trade.positionSize).toFixed(2)}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-mono ${
-                  trade.pnl >= 0 ? 'text-eternum-green' : 'text-eternum-red'
+                  trade.pnl >= 0 ? "text-eternum-green" : "text-eternum-red"
                 }">
-                    ${trade.pnl >= 0 ? '+' : ''}$${trade.pnl.toFixed(2)}
+                    ${trade.pnl >= 0 ? "+" : ""}$${trade.pnl.toFixed(2)}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-mono ${
-                  trade.pnl >= 0 ? 'text-eternum-green' : 'text-eternum-red'
+                  trade.pnl >= 0 ? "text-eternum-green" : "text-eternum-red"
                 }">
-                    ${trade.pnl >= 0 ? '+' : ''}${(
+                    ${trade.pnl >= 0 ? "+" : ""}${(
           (trade.pnl / (trade.entryPrice * trade.positionSize)) *
           100
         ).toFixed(2)}%
@@ -188,7 +190,7 @@ class TradeListComponent {
             </tr>
         `
       )
-      .join('');
+      .join("");
   }
 
   applyFilters() {
@@ -229,19 +231,19 @@ class TradeListComponent {
       let aVal, bVal;
 
       switch (this.sortBy) {
-        case 'date':
+        case "date":
           aVal = new Date(a.date).getTime();
           bVal = new Date(b.date).getTime();
           break;
-        case 'pnl':
+        case "pnl":
           aVal = a.pnl;
           bVal = b.pnl;
           break;
-        case 'symbol':
+        case "symbol":
           aVal = a.symbol;
           bVal = b.symbol;
           break;
-        case 'pips':
+        case "pips":
           aVal = a.pips || 0;
           bVal = b.pips || 0;
           break;
@@ -250,7 +252,7 @@ class TradeListComponent {
           bVal = new Date(b.date).getTime();
       }
 
-      if (this.sortOrder === 'asc') {
+      if (this.sortOrder === "asc") {
         return aVal > bVal ? 1 : -1;
       } else {
         return aVal < bVal ? 1 : -1;
@@ -259,77 +261,95 @@ class TradeListComponent {
   }
 
   attachEventListeners(container) {
-    container.querySelector('.trade-market-filter')?.addEventListener('change', (e) => {
-      this.filters.market = e.target.value;
-      this.applyFilters();
-      this.updateTable(container);
-    });
+    container
+      .querySelector(".trade-market-filter")
+      ?.addEventListener("change", (e) => {
+        this.filters.market = e.target.value;
+        this.applyFilters();
+        this.updateTable(container);
+      });
 
-    container.querySelector('.trade-outcome-filter')?.addEventListener('change', (e) => {
-      this.filters.outcome = e.target.value;
-      this.applyFilters();
-      this.updateTable(container);
-    });
+    container
+      .querySelector(".trade-outcome-filter")
+      ?.addEventListener("change", (e) => {
+        this.filters.outcome = e.target.value;
+        this.applyFilters();
+        this.updateTable(container);
+      });
 
-    container.querySelector('.trade-strategy-filter')?.addEventListener('change', (e) => {
-      this.filters.strategy = e.target.value;
-      this.applyFilters();
-      this.updateTable(container);
-    });
+    container
+      .querySelector(".trade-strategy-filter")
+      ?.addEventListener("change", (e) => {
+        this.filters.strategy = e.target.value;
+        this.applyFilters();
+        this.updateTable(container);
+      });
 
-    container.querySelector('.trade-search')?.addEventListener('input', (e) => {
+    container.querySelector(".trade-search")?.addEventListener("input", (e) => {
       this.filters.search = e.target.value;
       this.applyFilters();
       this.updateTable(container);
     });
 
-    container.querySelector('.trade-sort-by')?.addEventListener('change', (e) => {
-      this.sortBy = e.target.value;
-      this.applySort();
-      this.updateTable(container);
-    });
-
-    container.querySelector('.trade-reset-filters')?.addEventListener('click', () => {
-      this.filters = {
-        market: '',
-        outcome: '',
-        strategy: '',
-        dateRange: { start: null, end: null },
-        search: '',
-      };
-      container.querySelector('.trade-market-filter').value = '';
-      container.querySelector('.trade-outcome-filter').value = '';
-      container.querySelector('.trade-strategy-filter').value = '';
-      container.querySelector('.trade-search').value = '';
-      this.applyFilters();
-      this.updateTable(container);
-    });
-
-    container.querySelector('.trade-prev-btn')?.addEventListener('click', () => {
-      if (this.currentPage > 1) {
-        this.currentPage--;
+    container
+      .querySelector(".trade-sort-by")
+      ?.addEventListener("change", (e) => {
+        this.sortBy = e.target.value;
+        this.applySort();
         this.updateTable(container);
-      }
-    });
+      });
 
-    container.querySelector('.trade-next-btn')?.addEventListener('click', () => {
-      const totalPages = Math.ceil(this.filteredTrades.length / this.itemsPerPage);
-      if (this.currentPage < totalPages) {
-        this.currentPage++;
+    container
+      .querySelector(".trade-reset-filters")
+      ?.addEventListener("click", () => {
+        this.filters = {
+          market: "",
+          outcome: "",
+          strategy: "",
+          dateRange: { start: null, end: null },
+          search: "",
+        };
+        container.querySelector(".trade-market-filter").value = "";
+        container.querySelector(".trade-outcome-filter").value = "";
+        container.querySelector(".trade-strategy-filter").value = "";
+        container.querySelector(".trade-search").value = "";
+        this.applyFilters();
         this.updateTable(container);
-      }
-    });
+      });
+
+    container
+      .querySelector(".trade-prev-btn")
+      ?.addEventListener("click", () => {
+        if (this.currentPage > 1) {
+          this.currentPage--;
+          this.updateTable(container);
+        }
+      });
+
+    container
+      .querySelector(".trade-next-btn")
+      ?.addEventListener("click", () => {
+        const totalPages = Math.ceil(
+          this.filteredTrades.length / this.itemsPerPage
+        );
+        if (this.currentPage < totalPages) {
+          this.currentPage++;
+          this.updateTable(container);
+        }
+      });
   }
 
   updateTable(container) {
-    const tbody = container.querySelector('#trade-list-body');
+    const tbody = container.querySelector("#trade-list-body");
     if (tbody) {
       tbody.innerHTML = this.renderTableRows();
     }
 
-    const prevBtn = container.querySelector('.trade-prev-btn');
-    const nextBtn = container.querySelector('.trade-next-btn');
-    const totalPages = Math.ceil(this.filteredTrades.length / this.itemsPerPage);
+    const prevBtn = container.querySelector(".trade-prev-btn");
+    const nextBtn = container.querySelector(".trade-next-btn");
+    const totalPages = Math.ceil(
+      this.filteredTrades.length / this.itemsPerPage
+    );
 
     if (prevBtn) prevBtn.disabled = this.currentPage === 1;
     if (nextBtn) nextBtn.disabled = this.currentPage >= totalPages;

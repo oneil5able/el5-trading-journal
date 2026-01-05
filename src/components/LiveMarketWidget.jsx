@@ -1,36 +1,40 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 
-export default function LiveMarketWidget({ symbol = 'BTCUSDT', width = '100%', height = 400 }) {
+export default function LiveMarketWidget({
+  symbol = "BTCUSDT",
+  width = "100%",
+  height = 400,
+}) {
   const containerRef = useRef(null);
 
   useEffect(() => {
-    const id = `tradingview-widget-${symbol.replace(/[^a-zA-Z0-9]/g, '')}`;
+    const id = `tradingview-widget-${symbol.replace(/[^a-zA-Z0-9]/g, "")}`;
     const node = containerRef.current;
     if (!node) return;
 
     // Remove existing child
-    node.innerHTML = '';
-    const wrapper = document.createElement('div');
+    node.innerHTML = "";
+    const wrapper = document.createElement("div");
     wrapper.id = id;
     node.appendChild(wrapper);
 
     // Load TradingView script if not present
-    const scriptId = 'tradingview-script';
+    const scriptId = "tradingview-script";
     if (!document.getElementById(scriptId)) {
-      const script = document.createElement('script');
+      const script = document.createElement("script");
       script.id = scriptId;
-      script.src = 'https://s3.tradingview.com/tv.js';
+      script.src = "https://s3.tradingview.com/tv.js";
       script.async = true;
       script.onload = () => {
         if (window.TradingView) {
           new window.TradingView.widget({
             autosize: true,
             symbol: symbol,
-            interval: '60',
-            timezone: 'Etc/UTC',
-            theme: 'Dark',
-            style: '1',
-            toolbar_bg: '#f1f3f6',
+            interval: "60",
+            timezone: "Etc/UTC",
+            theme: "Dark",
+            style: "1",
+            toolbar_bg: "#f1f3f6",
             container_id: id,
           });
         }
@@ -41,11 +45,11 @@ export default function LiveMarketWidget({ symbol = 'BTCUSDT', width = '100%', h
         new window.TradingView.widget({
           autosize: true,
           symbol: symbol,
-          interval: '60',
-          timezone: 'Etc/UTC',
-          theme: 'Dark',
-          style: '1',
-          toolbar_bg: '#f1f3f6',
+          interval: "60",
+          timezone: "Etc/UTC",
+          theme: "Dark",
+          style: "1",
+          toolbar_bg: "#f1f3f6",
           container_id: id,
         });
       }
@@ -53,7 +57,7 @@ export default function LiveMarketWidget({ symbol = 'BTCUSDT', width = '100%', h
 
     return () => {
       // cleanup
-      if (node) node.innerHTML = '';
+      if (node) node.innerHTML = "";
     };
   }, [symbol]);
 

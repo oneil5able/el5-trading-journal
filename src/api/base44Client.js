@@ -18,15 +18,15 @@ export const base44 = {
       create: async (data) => ({ id: Date.now(), ...data }),
       update: async (id, data) => ({ id, ...data }),
       delete: async (id) => ({ id }),
-    }
+    },
   },
   integrations: {
     Core: {
-      UploadFile: async ({ file }) => ({ file_url: '' })
-    }
+      UploadFile: async ({ file }) => ({ file_url: "" }),
+    },
   },
   auth: {
     me: async () => null,
-    logout: async () => true
-  }
+    logout: async () => true,
+  },
 };
