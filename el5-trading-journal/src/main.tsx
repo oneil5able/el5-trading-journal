@@ -2,7 +2,7 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './index.css'
-import Layout from '../Layout'
+import Layout from '../Layout.jsx'
 
 // Pages
 import Dashboard from '../Pages/Dashboard.jsx'
