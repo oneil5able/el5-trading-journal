@@ -19,18 +19,26 @@ export const POPULAR_SYMBOLS = {
    COMPONENT
 =========================== */
 export default function SymbolPicker({
-  marketType = 'stocks',       // popular market
+  marketType = 'stocks',       // popular market (fallback)
+  market,                      // optional alias prop used by tests (e.g. 'spot')
   dynamicSymbols = [],         // optional external list (MARKETS)
   value,
   onSelect,
 }) {
+  const selectedMarketType = market || marketType;
   const [search, setSearch] = useState('');
   const [open, setOpen] = useState(false);
+
+  const SPOT_SYMBOLS = [
+    'BTCUSDT','ETHUSDT','SOLUSDT','BNBUSDT','XRPUSDT','ADAUSDT','DOGEUSDT','LTCUSDT','DOTUSDT','AVAXUSDT','SHIBUSDT','MATICUSDT','LINKUSDT','UNIUSDT'
+  ];
 
   const baseSymbols =
     dynamicSymbols.length > 0
       ? dynamicSymbols
-      : POPULAR_SYMBOLS[marketType] || POPULAR_SYMBOLS.stocks;
+      : selectedMarketType === 'spot'
+      ? SPOT_SYMBOLS
+      : POPULAR_SYMBOLS[selectedMarketType] || POPULAR_SYMBOLS.stocks;
 
   const filtered = search
     ? baseSymbols.filter((s) =>
@@ -50,7 +58,7 @@ export default function SymbolPicker({
             setSearch(e.target.value.toUpperCase());
             setOpen(true);
           }}
-          placeholder="Search or type symbol..."
+          placeholder="Search symbol or type..."
           className="pl-10 bg-slate-800 border-slate-700"
         />
       </div>
@@ -74,33 +82,35 @@ export default function SymbolPicker({
         </div>
       )}
 
-      {/* POPULAR BADGES */}
-      <div>
-        <p className="text-slate-400 text-xs mb-2 flex items-center gap-1">
-          <TrendingUp className="w-3 h-3" />
-          Popular
-        </p>
-        <div className="flex flex-wrap gap-2">
-          {baseSymbols.slice(0, 20).map((symbol) => (
-            <Badge
-              key={symbol}
-              variant={value === symbol ? 'default' : 'outline'}
-              className={`cursor-pointer ${
-                value === symbol
-                  ? 'bg-emerald-600'
-                  : 'border-slate-700 hover:bg-slate-800'
-              }`}
-              onClick={() => {
-                onSelect(symbol);
-                setSearch('');
-                setOpen(false);
-              }}
-            >
-              {symbol}
-            </Badge>
-          ))}
+      {/* POPULAR BADGES (hide while searching to avoid duplicate matches) */}
+      {!search && (
+        <div>
+          <p className="text-slate-400 text-xs mb-2 flex items-center gap-1">
+            <TrendingUp className="w-3 h-3" />
+            Popular
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {baseSymbols.slice(0, 20).map((symbol) => (
+              <Badge
+                key={symbol}
+                variant={value === symbol ? 'default' : 'outline'}
+                className={`cursor-pointer ${
+                  value === symbol
+                    ? 'bg-emerald-600'
+                    : 'border-slate-700 hover:bg-slate-800'
+                }`}
+                onClick={() => {
+                  onSelect(symbol);
+                  setSearch('');
+                  setOpen(false);
+                }}
+              >
+                {symbol}
+              </Badge>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

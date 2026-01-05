@@ -17,9 +17,9 @@
     "framer-motion": "^12.23.26",
     "gsap": "^3.12.2",
     "lucide-react": "^0.562.0",
-    "react": "^19.2.0",
+    "react": "^18.3.1",
     "react-chartjs-2": "^5.3.1",
-    "react-dom": "^19.2.0",
+    "react-dom": "^18.3.1",
     "react-router-dom": "^6.18.0",
     "recharts": "^3.6.0"
   },
@@ -44,6 +44,11 @@
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
     "vite": "^7.2.4",
-    "vitest": "^1.0.0"
-  }
+    "vitest": "^4.0.16"
+  },
+  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
+  "main": "eslint.config.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
