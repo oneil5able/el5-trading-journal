@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import ThemeToggle from './components/common/ThemeToggle';
+import ThemeToggle from './src/components/common/ThemeToggle';
 
 const navItems = [
   { name: 'Dashboard', icon: LayoutDashboard, page: 'Dashboard' },

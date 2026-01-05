@@ -34,7 +34,6 @@ export default function FullTradeEntry({ market = 'spot', onSubmit } = {}) {
 
     if (onSubmit) onSubmit(payload);
     else console.log('trade submit', payload);
-    // Reset minimal fields
     setSymbol('');
     setEntryPrice('');
     setQuantity('');

@@ -12,4 +12,16 @@ export function SelectItem({ children, value }) {
   return <option value={value}>{children}</option>;
 }
 
+export function SelectContent({ children, className = '' }) {
+  return <div className={className}>{children}</div>;
+}
+
+export function SelectTrigger({ children, className = '' }) {
+  return <div className={className}>{children}</div>;
+}
+
+export function SelectValue({ children, className = '' }) {
+  return <span className={className}>{children}</span>;
+}
+
 export default Select;
