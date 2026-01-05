@@ -7,13 +7,13 @@ export default function ThemeToggle() {
   const [theme, setTheme] = useState<'dark'|'light'|'blue'>('dark');
 
   useEffect(() => {
-    const saved = localStorage.getItem('theme') || 'dark';
+    const saved = (localStorage.getItem('theme') || 'dark') as 'dark' | 'light' | 'blue';
     setTheme(saved);
     document.documentElement.className = saved;
   }, []);
 
   const toggleTheme = () => {
-    const themes = ['dark', 'light', 'blue'];
+    const themes = ['dark', 'light', 'blue'] as const;
     const currentIndex = themes.indexOf(theme);
     const nextTheme = themes[(currentIndex + 1) % themes.length];
     setTheme(nextTheme);
@@ -32,6 +32,7 @@ export default function ThemeToggle() {
   return (
     <Button
       variant="outline"
+      _size="icon"
       size="icon"
       onClick={toggleTheme}
       className="border-slate-700 bg-slate-800/50 hover:bg-slate-800"

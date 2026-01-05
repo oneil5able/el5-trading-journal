@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { MARKETS, MarketKey } from '../markets';
+import { MARKETS } from '../markets';
+import type { MarketKey } from '../markets';
 
 export default function SymbolPicker({
   market,

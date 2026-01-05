@@ -21,7 +21,7 @@ export function ExportCSV() {
         'Urgency',
         'Notes',
       ],
-      ...trades.map((t) => [
+      ...trades.map((t: any) => [
         t.id,
         t.market,
         t.symbol,

@@ -49,7 +49,7 @@ const bottomNavItems = [
   { name: 'Terms', icon: BookOpen, page: 'terms' },
 ];
 
-export default function Layout({ children, currentPageName }) {
+export default function Layout({ children, currentPageName = '' }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (

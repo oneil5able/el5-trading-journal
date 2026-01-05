@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { db, ITrade } from '../db';
 
-export default function TradeExit({ trade, onClose }: { trade: ITrade; onClose: () => void }) {
+export default function TradeExit({ trade, onClose }: { trade: any; onClose: () => void }) {
   const [exit, setExit] = useState('');
 
   const closeTrade = async () => {
     if (!exit) return;
-    const pnl = (parseFloat(exit) - trade.entry) * (trade.side === 'long' ? 1 : -1) * trade.size;
-    await db.trades.update(trade.id!, { exit: parseFloat(exit), closed: new Date(), pnl });
+    const t: any = trade;
+    const pnl = (parseFloat(exit) - (t.entry || 0)) * (t.side === 'long' ? 1 : -1) * (t.size || 0);
+    await (db.trades as any).update(t.id, { exit: parseFloat(exit), closed: new Date(), pnl });
     onClose();
   };
 
