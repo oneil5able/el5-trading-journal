@@ -8,7 +8,7 @@ import { format } from 'date-fns';
 /* ===========================
    INLINE EMOJI SCROLL (UNCHANGED)
 =========================== */
-function EmojiScroll({ onPick }: { onPick: (e: string) => void }) {
+function EmojiScroll({ onPick }) {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState('😐');
 
@@ -58,7 +58,7 @@ const MINDSETS = [
   'Riding confidence from a win',
   'Bored / forcing action',
   'Neutral',
-] as const;
+];
 
 const REACTIONS = [
   'Relief',
@@ -68,7 +68,7 @@ const REACTIONS = [
   'Regret',
   'Indifference',
   'Euphoria',
-] as const;
+];
 
 const URGE_REASONS = [
   'To capitalize on momentum',
@@ -94,8 +94,8 @@ const PATTERNS = [
 /* ===========================
    MAIN COMPONENT
 =========================== */
-export default function PsychMirror({ onSave }: { onSave: (data: any) => void }) {
-  const [mode, setMode] = useState<'daily' | 'pre' | 'post'>('daily');
+export default function PsychMirror({ onSave }) {
+  const [mode, setMode] = useState('daily');
 
   /* DAILY REFLECTION */
   const [reflection, setReflection] = useState({
@@ -111,7 +111,7 @@ export default function PsychMirror({ onSave }: { onSave: (data: any) => void })
     clarity: 3,
     energy: 3,
     urgency: 3,
-    mindset: [] as string[],
+    mindset: [],
     fear: '',
     rules: true,
   });
@@ -200,7 +200,7 @@ export default function PsychMirror({ onSave }: { onSave: (data: any) => void })
           {mode === 'pre' ? (
             <>
               <h3 className="font-bold">Mental Readiness (1–5)</h3>
-              {(['confidence','calm','clarity','energy','urgency'] as const).map(k => (
+              {(['confidence','calm','clarity','energy','urgency']).map(k => (
                 <div key={k} className="flex items-center gap-3">
                   <span className="w-24 capitalize">{k}</span>
                   <input
