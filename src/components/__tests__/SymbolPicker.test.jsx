@@ -1,18 +1,15 @@
-import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import SymbolPicker from '@/components/SymbolPicker'; // ✅ use alias for Vite
+import React from 'react'
+import { render, screen, fireEvent } from '@testing-library/react'
+import SymbolPicker from '@/components/trades/SymbolPicker' // ✅ updated path
 
 test('renders symbol list and allows selection', () => {
-  render(<SymbolPicker market="spot" onSelect={() => {}} />);
-  
-  // Get the search input
-  const input = screen.getByPlaceholderText(/Search symbol/i);
-  expect(input).toBeInTheDocument();
+  render(<SymbolPicker market="spot" onSelect={() => {}} />)
 
-  // Type 'BTC' in the search input
-  fireEvent.change(input, { target: { value: 'BTC' } });
+  const input = screen.getByPlaceholderText(/Search symbol/i)
+  expect(input).toBeInTheDocument()
 
-  // After searching, BTCUSDT option should be visible
-  const option = screen.getByText(/BTCUSDT/i);
-  expect(option).toBeInTheDocument();
-});
+  fireEvent.change(input, { target: { value: 'BTC' } })
+
+  const option = screen.getByText(/BTCUSDT/i)
+  expect(option).toBeInTheDocument()
+})

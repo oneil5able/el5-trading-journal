@@ -6,13 +6,13 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'src') // for Vite imports
+      '@': path.resolve(__dirname, 'src') // ✅ allows @/ imports everywhere
     }
   },
   optimizeDeps: {
     esbuildOptions: {
       loader: {
-        '.js': 'jsx' // ensures JS files are treated as JSX
+        '.js': 'jsx' // treats JS files as JSX
       }
     }
   },
