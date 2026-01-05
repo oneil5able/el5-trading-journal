@@ -109,7 +109,7 @@ export default function Portfolio() {
   const chartData = portfolio.map((h, i) => ({
     name: h.symbol,
     value: h.shares * (h.current_price || h.avg_cost),
-    percentage: ((h.shares * (h.current_price || h.avg_cost) / totalValue) * 100).toFixed(1)
+    percentage: ((h.shares * (h.current_price || h.avg_cost) / (totalValue || 1)) * 100).toFixed(1)
   }));
 
   return (
@@ -149,4 +149,256 @@ export default function Portfolio() {
               </p>
             </Card>
           </motion.div>
-*** End of File
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+            <Card className="bg-slate-900/50 border-slate-800/50 backdrop-blur-xl p-6">
+              <p className="text-slate-400 text-sm">Total Cost Basis</p>
+              <p className="text-3xl font-bold text-white mt-1">
+                ${totalCost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </p>
+            </Card>
+          </motion.div>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+            <Card className={`bg-slate-900/50 border-slate-800/50 backdrop-blur-xl p-6 ${totalPL >= 0 ? 'border-l-4 border-l-emerald-500' : 'border-l-4 border-l-rose-500'}`}>
+              <p className="text-slate-400 text-sm">Unrealized P&L</p>
+              <div className="flex items-center gap-2 mt-1">
+                {totalPL >= 0 ? <TrendingUp className="w-6 h-6 text-emerald-400" /> : <TrendingDown className="w-6 h-6 text-rose-400" />}
+                <p className={`text-3xl font-bold ${totalPL >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                  {totalPL >= 0 ? '+' : ''}${totalPL.toFixed(2)}
+                </p>
+                <span className={`text-sm ${totalPL >= 0 ? 'text-emerald-400/70' : 'text-rose-400/70'}`}>
+                  ({totalPLPercent >= 0 ? '+' : ''}{totalPLPercent.toFixed(2)}%)
+                </span>
+              </div>
+            </Card>
+          </motion.div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Holdings List */}
+          <div className="lg:col-span-2 space-y-4">
+            <AnimatePresence mode="popLayout">
+              {portfolio.map((holding, index) => {
+                const currentValue = holding.shares * (holding.current_price || holding.avg_cost);
+                const costBasis = holding.shares * holding.avg_cost;
+                const pl = currentValue - costBasis;
+                const plPercent = costBasis > 0 ? (pl / costBasis) * 100 : 0;
+
+                return (
+                  <motion.div
+                    key={holding.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ delay: index * 0.05 }}
+                    layout
+                  >
+                    <Card className="bg-slate-900/50 border-slate-800/50 backdrop-blur-xl p-5 hover:bg-slate-900/70 transition-all duration-300 group">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div 
+                            className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold text-lg"
+                            style={{ backgroundColor: COLORS[index % COLORS.length] + '20', color: COLORS[index % COLORS.length] }}
+                          >
+                            {holding.symbol.slice(0, 2)}
+                          </div>
+                          <div>
+                            <h3 className="text-white font-semibold text-lg">{holding.symbol}</h3>
+                            <p className="text-slate-400 text-sm">{holding.shares} shares @ ${holding.avg_cost?.toFixed(2)}</p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-6">
+                          <div className="text-right">
+                            <p className="text-white font-semibold">${currentValue.toFixed(2)}</p>
+                            <div className={`flex items-center gap-1 justify-end ${pl >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                              {pl >= 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+                              <span className="text-sm">
+                                {pl >= 0 ? '+' : ''}${pl.toFixed(2)} ({plPercent >= 0 ? '+' : ''}{plPercent.toFixed(2)}%)
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <Button 
+                              variant="ghost" 
+                              size="icon" 
+                              className="h-8 w-8 text-slate-400 hover:text-white"
+                              onClick={() => handleEdit(holding)}
+                            >
+                              <Edit2 className="w-4 h-4" />
+                            </Button>
+                            <Button 
+                              variant="ghost" 
+                              size="icon" 
+                              className="h-8 w-8 text-rose-400 hover:text-rose-300 hover:bg-rose-500/10"
+                              onClick={() => deleteMutation.mutate(holding.id)}
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </Card>
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
+
+            {portfolio.length === 0 && !isLoading && (
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-center py-16"
+              >
+                <Briefcase className="w-12 h-12 text-slate-600 mx-auto mb-4" />
+                <p className="text-slate-500 text-lg">No holdings yet</p>
+                <Button 
+                  onClick={() => setShowForm(true)}
+                  className="mt-4 bg-emerald-600 hover:bg-emerald-700"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Your First Holding
+                </Button>
+              </motion.div>
+            )}
+          </div>
+
+          {/* Allocation Chart */}
+          {portfolio.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              <Card className="bg-slate-900/50 border-slate-800/50 backdrop-blur-xl p-6 sticky top-8">
+                <h3 className="text-white font-semibold mb-4">Allocation</h3>
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={chartData}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={60}
+                        outerRadius={90}
+                        paddingAngle={3}
+                        dataKey="value"
+                      >
+                        {chartData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Pie>
+                      <Tooltip content={<CustomTooltip />} />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+                <div className="space-y-2 mt-4">
+                  {chartData.map((item, index) => (
+                    <div key={item.name} className="flex items-center justify-between text-sm">
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[index % COLORS.length] }} />
+                        <span className="text-slate-400">{item.name}</span>
+                      </div>
+                      <span className="text-white font-medium">{item.percentage}%</span>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            </motion.div>
+          )}
+        </div>
+
+        {/* Add/Edit Form Dialog */}
+        <Dialog open={showForm} onOpenChange={(open) => { setShowForm(open); if (!open) { setSelectedHolding(null); resetForm(); } }}>
+          <DialogContent className="bg-slate-900 border-slate-800 text-white">
+            <DialogHeader>
+              <DialogTitle className="text-xl font-semibold">
+                {selectedHolding ? 'Edit Holding' : 'Add Holding'}
+              </DialogTitle>
+            </DialogHeader>
+
+            <div className="space-y-4 mt-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label className="text-slate-400">Symbol</Label>
+                  <Input
+                    value={formData.symbol}
+                    onChange={(e) => setFormData({ ...formData, symbol: e.target.value.toUpperCase() })}
+                    placeholder="AAPL"
+                    className="bg-slate-800 border-slate-700 mt-1"
+                  />
+                </div>
+                <div>
+                  <Label className="text-slate-400">Shares</Label>
+                  <Input
+                    type="number"
+                    value={formData.shares}
+                    onChange={(e) => setFormData({ ...formData, shares: e.target.value })}
+                    placeholder="100"
+                    className="bg-slate-800 border-slate-700 mt-1"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <Label className="text-slate-400">Company Name (optional)</Label>
+                <Input
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  placeholder="Apple Inc."
+                  className="bg-slate-800 border-slate-700 mt-1"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label className="text-slate-400">Avg Cost</Label>
+                  <Input
+                    type="number"
+                    step="0.01"
+                    value={formData.avg_cost}
+                    onChange={(e) => setFormData({ ...formData, avg_cost: e.target.value })}
+                    placeholder="0.00"
+                    className="bg-slate-800 border-slate-700 mt-1"
+                  />
+                </div>
+                <div>
+                  <Label className="text-slate-400">Current Price</Label>
+                  <Input
+                    type="number"
+                    step="0.01"
+                    value={formData.current_price}
+                    onChange={(e) => setFormData({ ...formData, current_price: e.target.value })}
+                    placeholder="0.00"
+                    className="bg-slate-800 border-slate-700 mt-1"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <Label className="text-slate-400">Sector (optional)</Label>
+                <Input
+                  value={formData.sector}
+                  onChange={(e) => setFormData({ ...formData, sector: e.target.value })}
+                  placeholder="Technology"
+                  className="bg-slate-800 border-slate-700 mt-1"
+                />
+              </div>
+            </div>
+
+            <DialogFooter className="mt-6">
+              <Button variant="outline" onClick={() => setShowForm(false)} className="border-slate-700">Cancel</Button>
+              <Button 
+                onClick={handleSave} 
+                disabled={!formData.symbol || !formData.shares || !formData.avg_cost || createMutation.isPending || updateMutation.isPending}
+                className="bg-emerald-600 hover:bg-emerald-700"
+              >
+                {(createMutation.isPending || updateMutation.isPending) ? <Loader2 className="w-4 h-4 animate-spin" /> : selectedHolding ? 'Update' : 'Add Holding'}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
+    </div>
+  );
+}
