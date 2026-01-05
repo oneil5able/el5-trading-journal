@@ -9,7 +9,7 @@
     "useDefineForClassFields": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
-    "types": ["vite/client", "node"],
+    "types": ["vite/client", "node", "react", "react/jsx-runtime"],
     "skipLibCheck": true,
     "allowJs": true,
 
