@@ -58,7 +58,15 @@ class Query {
   order(field: string, opts?: { ascending?: boolean }) {
     const asc = opts?.ascending !== false;
     this.sorter = (a, b) =>
-      a[field] === b[field] ? 0 : asc ? (a[field] > b[field] ? 1 : -1) : (a[field] < b[field] ? 1 : -1);
+      a[field] === b[field]
+        ? 0
+        : asc
+        ? a[field] > b[field]
+          ? 1
+          : -1
+        : a[field] < b[field]
+        ? 1
+        : -1;
     return this;
   }
 

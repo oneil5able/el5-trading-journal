@@ -100,23 +100,33 @@ function EmojiScroll({ onPick }: { onPick: (e: string) => void }) {
         onClick={() => setOpen(!open)}
         className="border rounded px-3 py-2 bg-gray-800 text-2xl min-w-[3rem]"
         type="button"
+        aria-expanded={open}
+        aria-controls="emoji-list"
+        aria-label="Select emoji"
       >
         {selected}
       </button>
       {open && (
-        <div className="absolute top-12 left-0 w-64 h-48 overflow-y-auto bg-gray-900 border rounded p-2 grid grid-cols-4 gap-2 z-10">
+        <div
+          id="emoji-list"
+          role="listbox"
+          aria-label="Emoji picker"
+          className="absolute top-12 left-0 w-64 h-48 overflow-y-auto bg-gray-900 border rounded p-2 grid grid-cols-4 gap-2 z-10"
+        >
           {EMOJIS.map((e) => (
-            <div
+            <button
               key={e}
+              type="button"
               onClick={() => {
                 setSelected(e);
                 onPick(e);
                 setOpen(false);
               }}
+              aria-label={`Emoji ${e}`}
               className="cursor-pointer hover:bg-gray-700 p-2 text-2xl rounded text-center"
             >
               {e}
-            </div>
+            </button>
           ))}
         </div>
       )}
@@ -279,8 +289,12 @@ export default function PsychMirror({ onSave }: Props) {
                 ["confidence", "calm", "clarity", "energy", "urgency"] as const
               ).map((k) => (
                 <div key={k} className="flex items-center gap-3">
-                  <span className="w-24 capitalize">{k}</span>
+                  <label htmlFor={`pre-${k}`} className="w-24 capitalize">
+                    {k}
+                  </label>
                   <input
+                    id={`pre-${k}`}
+                    aria-label={k}
                     type="range"
                     min={1}
                     max={5}
@@ -292,7 +306,9 @@ export default function PsychMirror({ onSave }: Props) {
                       } as unknown as PreState)
                     }
                   />
-                  <span>{pre[k as keyof PreState] as number}</span>
+                  <span aria-live="polite">
+                    {pre[k as keyof PreState] as number}
+                  </span>
                 </div>
               ))}
 
@@ -317,9 +333,14 @@ export default function PsychMirror({ onSave }: Props) {
                 ))}
               </div>
 
+              <label className="sr-only" htmlFor="pre-fear">
+                Fear if skipped
+              </label>
               <input
+                id="pre-fear"
                 className="w-full text-black px-2"
                 placeholder="Fear if skipped"
+                aria-label="Fear if skipped"
                 maxLength={120}
                 value={pre.fear}
                 onChange={(e) => setPre({ ...pre, fear: e.target.value })}
@@ -340,6 +361,7 @@ export default function PsychMirror({ onSave }: Props) {
               <select
                 value={post.reaction}
                 onChange={(e) => setPost({ ...post, reaction: e.target.value })}
+                aria-label="Emotional reaction"
               >
                 {REACTIONS.map((r) => (
                   <option key={r}>{r}</option>
@@ -355,6 +377,7 @@ export default function PsychMirror({ onSave }: Props) {
                 onChange={(e) =>
                   setPost({ ...post, intensity: Number(e.target.value) })
                 }
+                aria-label="Reaction intensity"
               />
 
               <label className="flex items-center gap-2">
@@ -372,6 +395,7 @@ export default function PsychMirror({ onSave }: Props) {
                   onChange={(e) =>
                     setPost({ ...post, urgeReason: e.target.value })
                   }
+                  aria-label="Urge reason"
                 >
                   <option value="">Select reason</option>
                   {URGE_REASONS.map((r) => (
@@ -386,6 +410,7 @@ export default function PsychMirror({ onSave }: Props) {
                 onChange={(e) =>
                   setPost({ ...post, alignment: e.target.value })
                 }
+                aria-label="Rule alignment"
               >
                 {ALIGNMENTS.map((a) => (
                   <option key={a}>{a}</option>
@@ -399,6 +424,7 @@ export default function PsychMirror({ onSave }: Props) {
               <select
                 value={post.pattern}
                 onChange={(e) => setPost({ ...post, pattern: e.target.value })}
+                aria-label="Pattern"
               >
                 {PATTERNS.map((p) => (
                   <option key={p}>{p}</option>

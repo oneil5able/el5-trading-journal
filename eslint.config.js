@@ -58,10 +58,7 @@ export default [
 
   // ---- Legacy / Demo / Shim Code ----
   {
-    files: [
-      "src/lib/**",
-      "src/types/**",
-    ],
+    files: ["src/lib/**", "src/types/**"],
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
     },
