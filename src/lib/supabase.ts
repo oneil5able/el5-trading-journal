@@ -91,7 +91,7 @@ try {
     (process && (process.env.SUPABASE_KEY || process.env.VITE_SUPABASE_KEY));
   if (url && key) {
     // dynamic require to avoid breaking environments without @supabase/supabase-js
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+
     const { createClient } = require("@supabase/supabase-js");
     realSupabase = createClient(url, key);
   }
