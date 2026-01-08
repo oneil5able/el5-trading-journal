@@ -3,32 +3,32 @@ import Layout from './Layout.jsx';
 import './App.css';
 
 // Import all your pages
-import Dashboard from './Pages/Dashboard.jsx';
-import Journal from './Pages/Journal.jsx';
-import Portfolio from './Pages/portfolio.jsx';
-import Spot from './Pages/Spot.jsx';
-import Futures from './Pages/Futures.jsx';
-import Margin from './Pages/Margin.jsx';
-import Options from './Pages/Options.jsx';
-import NFT from './Pages/NFT.jsx';
-import Calculator from './Pages/Calculator.tsx';
-import Analytics from './Pages/Analytics.jsx';
-import Psychology from './Pages/Psychology.jsx';
-import Watchlist from './Pages/Watchlist.jsx';
-import Notes from './Pages/Notes.jsx';
-import Settings from './Pages/Settings.jsx';
-import Profile from './Pages/Profile.jsx';
-import HelpCenter from './Pages/HelpCenter.jsx';
-import Support from './Pages/Support.jsx';
-import APIDocs from './Pages/APIDocs.jsx';
-import About from './Pages/About.jsx';
-import Careers from './Pages/Careers.jsx';
-import ContactSupport from './Pages/ContactSupport.jsx';
-import PressKit from './Pages/PressKit.jsx';
-import Privacy from './Pages/Privacy.jsx';
-import SystemStatus from './Pages/SystemStatus.jsx';
-import Terms from './Pages/Terms.jsx';
-import TradingGuides from './Pages/TradingGuides.jsx';
+import Dashboard from './pages/Dashboard.jsx';
+import Journal from './pages/Journal.jsx';
+import Portfolio from './pages/portfolio.jsx';
+import Spot from './pages/Spot.jsx';
+import Futures from './pages/Futures.jsx';
+import Margin from './pages/Margin.jsx';
+import Options from './pages/Options.jsx';
+import NFT from './pages/NFT.jsx';
+import Calculator from './pages/Calculator.tsx';
+import Analytics from './pages/Analytics.jsx';
+import Psychology from './pages/Psychology.jsx';
+import Watchlist from './pages/Watchlist.jsx';
+import Notes from './pages/Notes.jsx';
+import Settings from './pages/Settings.jsx';
+import Profile from './pages/Profile.jsx';
+import HelpCenter from './pages/HelpCenter.jsx';
+import Support from './pages/Support.jsx';
+import APIDocs from './pages/APIDocs.jsx';
+import About from './pages/About.jsx';
+import Careers from './pages/Careers.jsx';
+import ContactSupport from './pages/ContactSupport.jsx';
+import PressKit from './pages/PressKit.jsx';
+import Privacy from './pages/Privacy.jsx';
+import SystemStatus from './pages/SystemStatus.jsx';
+import Terms from './pages/Terms.jsx';
+import TradingGuides from './pages/TradingGuides.jsx';
 
 function App() {
   return (
