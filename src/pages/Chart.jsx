@@ -1,5 +1,5 @@
 import React from "react";
-import PositionCalculator from "../src/components/calculator/PositionCalculator";
+import PositionCalculator from "../components/calculator/PositionCalculator";
 
 export default function Chart() {
   return (

@@ -1,5 +1,5 @@
 import React from "react";
-import FullTradeEntry from "../src/components/trades/FullTradeEntry";
+import FullTradeEntry from "../components/trades/FullTradeEntry";
 
 export default function Options() {
   return (

@@ -1,70 +1,71 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Layout from './Layout.jsx';
-import './App.css';
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import MainLayout from "@/Layouts/MainLayout";
 
-// Import all your pages
-import Dashboard from './pages/Dashboard.jsx';
-import Journal from './pages/Journal.jsx';
-import Portfolio from './pages/portfolio.jsx';
-import Spot from './pages/Spot.jsx';
-import Futures from './pages/Futures.jsx';
-import Margin from './pages/Margin.jsx';
-import Options from './pages/Options.jsx';
-import NFT from './pages/NFT.jsx';
-import Calculator from './pages/Calculator.tsx';
-import Analytics from './pages/Analytics.jsx';
-import Psychology from './pages/Psychology.jsx';
-import Watchlist from './pages/Watchlist.jsx';
-import Notes from './pages/Notes.jsx';
-import Settings from './pages/Settings.jsx';
-import Profile from './pages/Profile.jsx';
-import HelpCenter from './pages/HelpCenter.jsx';
-import Support from './pages/Support.jsx';
-import APIDocs from './pages/APIDocs.jsx';
-import About from './pages/About.jsx';
-import Careers from './pages/Careers.jsx';
-import ContactSupport from './pages/ContactSupport.jsx';
-import PressKit from './pages/PressKit.jsx';
-import Privacy from './pages/Privacy.jsx';
-import SystemStatus from './pages/SystemStatus.jsx';
-import Terms from './pages/Terms.jsx';
-import TradingGuides from './pages/TradingGuides.jsx';
+// pages
+import Dashboard from "@/pages/Dashboard";
+import Journal from "@/pages/Journal";
+import Portfolio from "@/pages/portfolio";
+import Spot from "@/pages/Spot";
+import Futures from "@/pages/Futures";
+import Margin from "@/pages/Margin";
+import Options from "@/pages/Options";
+import NFT from "@/pages/NFT";
+import Calculator from "@/pages/Calculator";
+import Analytics from "@/pages/Analytics";
+import Psychology from "@/pages/Psychology";
+import Watchlist from "@/pages/Watchlist";
+import Notes from "@/pages/Notes";
+import Settings from "@/pages/Settings";
+import Profile from "@/pages/Profile";
+import HelpCenter from "@/pages/HelpCenter";
+import Support from "@/pages/Support";
+import APIDocs from "@/pages/APIDocs";
+import About from "@/pages/About";
+import Careers from "@/pages/Careers";
+import ContactSupport from "@/pages/ContactSupport";
+import PressKit from "@/pages/PressKit";
+import Privacy from "@/pages/Privacy";
+import SystemStatus from "@/pages/SystemStatus";
+import Terms from "@/pages/Terms";
+import TradingGuides from "@/pages/TradingGuides";
+import Chart from "@/pages/Chart";
 
-function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="journal" element={<Journal />} />
-          <Route path="portfolio" element={<Portfolio />} />
-          <Route path="spot" element={<Spot />} />
-          <Route path="futures" element={<Futures />} />
-          <Route path="margin" element={<Margin />} />
-          <Route path="options" element={<Options />} />
-          <Route path="nft" element={<NFT />} />
-          <Route path="calculator" element={<Calculator />} />
-          <Route path="analytics" element={<Analytics />} />
-          <Route path="psychology" element={<Psychology />} />
-          <Route path="watchlist" element={<Watchlist />} />
-          <Route path="notes" element={<Notes />} />
-          <Route path="settings" element={<Settings />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="help" element={<HelpCenter />} />
-          <Route path="support" element={<Support />} />
-          <Route path="api-docs" element={<APIDocs />} />
-          <Route path="about" element={<About />} />
-          <Route path="careers" element={<Careers />} />
-          <Route path="contact" element={<ContactSupport />} />
-          <Route path="press" element={<PressKit />} />
-          <Route path="privacy" element={<Privacy />} />
-          <Route path="status" element={<SystemStatus />} />
-          <Route path="terms" element={<Terms />} />
-          <Route path="guides" element={<TradingGuides />} />
-        </Route>
-      </Routes>
-    </Router>
-  );
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <MainLayout />,
+    children: [
+      { index: true, element: <Dashboard /> },
+      { path: "journal", element: <Journal /> },
+      { path: "portfolio", element: <Portfolio /> },
+      { path: "spot", element: <Spot /> },
+      { path: "futures", element: <Futures /> },
+      { path: "margin", element: <Margin /> },
+      { path: "options", element: <Options /> },
+      { path: "nft", element: <NFT /> },
+      { path: "calculator", element: <Calculator /> },
+      { path: "analytics", element: <Analytics /> },
+      { path: "psychology", element: <Psychology /> },
+      { path: "watchlist", element: <Watchlist /> },
+      { path: "notes", element: <Notes /> },
+      { path: "settings", element: <Settings /> },
+      { path: "profile", element: <Profile /> },
+      { path: "help", element: <HelpCenter /> },
+      { path: "support", element: <Support /> },
+      { path: "api-docs", element: <APIDocs /> },
+      { path: "about", element: <About /> },
+      { path: "careers", element: <Careers /> },
+      { path: "contact", element: <ContactSupport /> },
+      { path: "press", element: <PressKit /> },
+      { path: "privacy", element: <Privacy /> },
+      { path: "status", element: <SystemStatus /> },
+      { path: "terms", element: <Terms /> },
+      { path: "guides", element: <TradingGuides /> },
+      { path: "charts", element: <Chart /> },
+    ],
+  },
+]);
+
+export default function App() {
+  return <RouterProvider router={router} />;
 }
-
-export default App;
